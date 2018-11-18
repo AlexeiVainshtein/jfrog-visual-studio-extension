@@ -1,0 +1,110 @@
+﻿namespace JFrogVSExtension
+{
+    using System.Windows;
+    using System.Windows.Controls;
+
+    /// <summary>
+    /// Interaction logic for MainPanelControl.
+    /// </summary>
+    public partial class MainPanelControl : UserControl
+    {     
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainPanelControl"/> class.
+        /// </summary>
+        public MainPanelControl()
+        {
+            InitializeComponent();
+            DataContext = new MainViewModel();
+        }
+
+        /// <summary>
+        /// Handles Refresh button.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event args.</param>
+        private void RefreshTree(object sender, RoutedEventArgs e)
+        {
+            ((MainViewModel)this.DataContext).Refresh();
+        }
+
+        /// <summary>
+        /// Handles click on the button by displaying a message box.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event args.</param>
+        private void ColapseTree(object sender, RoutedEventArgs e)
+        {
+            ((MainViewModel)this.DataContext).Refresh();
+        }
+
+        /// <summary>
+        /// Handles click on the button by displaying a message box.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event args.</param>
+        private void ExpandTree(object sender, RoutedEventArgs e)
+        {
+
+            ((MainViewModel)this.DataContext).ExpandAll();
+        }
+
+        /// <summary>
+        /// Handles click on the button by displaying a message box.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event args.</param>
+        private void CollapseTree(object sender, RoutedEventArgs e)
+        {
+            ((MainViewModel)this.DataContext).CollapseAll();
+        }
+
+        private void HandleCheck(object sender, RoutedEventArgs e)
+        {
+            if (((CheckBox)e.Source).Content.Equals("All"))
+            {
+                cbCriticall.IsChecked = true;
+                cbMajor.IsChecked = true;
+                cbMinor.IsChecked  = true;
+                cbUnknown.IsChecked = true;
+                cbNormal.IsChecked = true;
+            }
+            ((MainViewModel)this.DataContext).AddSeverityToFilter(((CheckBox)e.Source).Content.ToString());
+        }
+
+        private void HandleUnchecked(object sender, RoutedEventArgs e)
+        {
+            if (((CheckBox)e.Source).Content.Equals("All"))
+            {
+                cbCriticall.IsChecked = false;
+                cbMajor.IsChecked = false;
+                cbMinor.IsChecked = false;
+                cbUnknown.IsChecked = false;
+                cbNormal.IsChecked = false;
+            }
+            ((MainViewModel)this.DataContext).AddSeverityToFilter(((CheckBox)e.Source).Content.ToString());
+        }
+        private void OpenFilter(object sender, RoutedEventArgs e)
+        {
+            FilterPopup.IsOpen = true;
+        }
+
+        private void Details_Loaded(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void Tree_Loaded(object sender, RoutedEventArgs e)
+        {
+            ((MainViewModel)this.DataContext).Load();
+        }
+
+        public void Load()
+        {
+            ((MainViewModel)this.DataContext).Load();
+        }
+
+        public void Close()
+        {
+            ((MainViewModel)this.DataContext).Close();
+        }
+    }
+}
