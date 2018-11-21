@@ -28,7 +28,7 @@ namespace JFrogVSExtension.Utils
         {
             String strAppPath = GetAssemblyLocalPathFrom(typeof(MainPanelCommand));
             String strFilePath = Path.Combine(strAppPath, "Resources");
-            String pathToCli = Path.Combine(strFilePath, "jfrogcli.exe");
+            String pathToCli = Path.Combine(strFilePath, "jfrog.exe");
             OutputLog.ShowMessage("Path for the JFrog CLI: " + pathToCli);
             //Create process
             Process pProcess = new System.Diagnostics.Process();

@@ -15,6 +15,7 @@ namespace JFrogVSExtension.Xray
                 return status;
             }
         }
+
         public static XrayVersion LoadXrayVersion(String output)
         {
             {
