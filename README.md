@@ -1,33 +1,45 @@
 # Overview
 JFrog Visual studio extension adds JFrog Xray scanning of NuGet project dependencies to your Visual Studio.
 
+# Installing the extension
+1. Open Visual Studio
+2. Open *Tools* - *Extensions and Updates*
+
+![alt](docs/images/getTools.png)
+
+3. Search for JFrog Visual Studio Extension
+4. Click on *Download*
+5. Once the installation is completed, re-open Visual Studio.
+
 # Building and Testing the Sources
 
 To build the plugin sources, please follow these steps:
 1. Clone the code from git.
 2. Open Visual Studio.
-3. Open Tools - Get Tools and Features
+3. Open *Tools* - *Get Tools and Features*
 
 ![alt](docs/images/getTools.png)
 
-4. Select the workloads tab and scroll to the bottem for the Other Toolsets section. Install Visual Studio extension development. More information regarding the Visual Studio SDK can be found [here](https://docs.microsoft.com/en-us/visualstudio/extensibility/installing-the-visual-studio-sdk?view=vs-2017).
+4. Select the *workloads* tab and scroll to the bottem for the Other Toolsets section. Install Visual Studio extension development. Read more about Visual Studio SDK [here](https://docs.microsoft.com/en-us/visualstudio/extensibility/installing-the-visual-studio-sdk?view=vs-2017).
 
 ![alt](docs/images/extension.png)
 
-5. Once done re-open Visual Studio.
-6. Click on *File* - *Open* - *Project/Solution* and navigate to the place you cloned this project and select the sln file.
-7. To build the project, click on *Build* tab - *Build Solution*. The VSIX file will be placed in the **$PROJECT_LOCATION\bin\Release\JFrog.VSExtension.vsix**
+5. Once the installation is completed, re-open Visual Studio.
+6. Click on *File* - *Open* - *Project/Solution* and navigate to the project root dir and select the sln file.
+7. To build the project, click on *Build* tab - *Build Solution*. The VSIX file will be created in the following location: **$PROJECT_LOCATION\bin\Release\JFrog.VSExtension.vsix**
 
 ![alt](docs/images/build.png)
 
-# Developing the Plugin Code
-If you'd like to help us develop and enhance the extension, this section is for you.
-To build and run the plugin following your code changes, follow these steps:
-
-1. From Visual Studio, open the extension project (please see above section number 6)
-2. To lunch the extension: Click on *Debug* - *Start Debugging*.
-
+8. If you'd like to help us develop and enhance the extension, this section is for you.
+   To build and run the plugin following your code changes, follow this step:
+To debug the extension, click on *Debug* - *Start Debugging*.
+                           
 ![alt](docs/images/debug.png)
+
+# Troublshooting issues
+When openning the project in Visual Studio for the first time, the following error may appear : *"Fody.WeavingTask" task was not given a value for the required parameter "SolutionDir"*.
+
+To fix this,close the solution and open it again. More information can be found [here](https://stackoverflow.com/questions/50225374/xamarin-issues-with-fody-weavingtask-and-solutiondir)
 
 # Code Contributions
 We welcome community contribution through pull requests.
