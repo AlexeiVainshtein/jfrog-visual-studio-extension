@@ -20,7 +20,8 @@ To build and run the plugin following your code changes, follow these steps:
 2. To lunch the extension: Click on *Debug* - *Start Debugging*.
 
 # Troublshooting issues
-Possible error: *"Fody.WeavingTask" task was not given a value for the required parameter "SolutionDir"*
+Possible error: *"Fody.WeavingTask" task was not given a value for the required parameter "SolutionDir"*.
+
 Solution: This is a bug within Visual Studio. The solution is to close the solution and open it again. More information can be found [Here](https://stackoverflow.com/questions/50225374/xamarin-issues-with-fody-weavingtask-and-solutiondir)
 
 # Code Contributions
