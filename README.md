@@ -1,7 +1,7 @@
 # Overview
 JFrog Visual studio extension adds JFrog Xray scanning of NuGet project dependencies to your Visual Studio.
 
-# Building and Testing the Sources
+# Building the Sources
 
 To build the plugin sources, please follow these steps:
 1. Clone the code from git.
@@ -18,6 +18,11 @@ To build and run the plugin following your code changes, follow these steps:
 
 1. From Visual Studio, open the extension project (please see above section number 6)
 2. To lunch the extension: Click on *Debug* - *Start Debugging*.
+
+# Troublshooting issues
+Possible error: *"Fody.WeavingTask" task was not given a value for the required parameter "SolutionDir"*.
+
+Solution: This is a bug within Visual Studio. The solution is to close the solution and open it again. More information can be found [Here](https://stackoverflow.com/questions/50225374/xamarin-issues-with-fody-weavingtask-and-solutiondir)
 
 # Code Contributions
 We welcome community contribution through pull requests.
