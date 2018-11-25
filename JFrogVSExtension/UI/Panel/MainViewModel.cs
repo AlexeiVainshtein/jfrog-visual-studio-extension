@@ -15,6 +15,7 @@ namespace JFrogVSExtension
 
         #region Private Properties
         public static HashSet<Severity> Severities { get; set; }
+        public static HashSet<Severity> SeveritiesFromFilter { get; set; }
         #endregion
 
         #region constractor
@@ -22,6 +23,7 @@ namespace JFrogVSExtension
         {
             Severities = new HashSet<Severity>();
             ResetSeverities();
+            SeveritiesFromFilter = Severities;      
         }
 
         public void Refresh()
@@ -56,24 +58,33 @@ namespace JFrogVSExtension
             if (severityName.Equals("All"))
             {
                 ResetSeverities();
+                SeveritiesFromFilter = Severities;
             }
             else
             {
                 Severity severity = (Severity)Enum.Parse(typeof(Severity), severityName);
-                Severities.Add(severity);
+                SeveritiesFromFilter.Add(severity);
             }
             Tree = new TreeViewModel();
-            Tree.Load(RefreshType.None, Severities);
+            Tree.Load(RefreshType.None, SeveritiesFromFilter);
         }
 
         public void RemoveSeverityFromFilter(string severityName)
         {
             if (severityName.Equals("All"))
             {
-                Severities = new HashSet<Severity>();
+                SeveritiesFromFilter = new HashSet<Severity>();
+            } else
+            {
+                Severity severity = (Severity)Enum.Parse(typeof(Severity), severityName);
+
+                if (SeveritiesFromFilter.Contains(severity))
+                {
+                    SeveritiesFromFilter.Remove(severity);
+                }
             }
             Tree = new TreeViewModel();
-            Tree.Load(RefreshType.None, Severities);
+            Tree.Load(RefreshType.None, SeveritiesFromFilter);
         }
 
         public void ResetSeverities()

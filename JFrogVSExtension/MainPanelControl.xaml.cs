@@ -1,5 +1,6 @@
 ﻿namespace JFrogVSExtension
 {
+    using JFrogVSExtension.Logger;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -7,7 +8,8 @@
     /// Interaction logic for MainPanelControl.
     /// </summary>
     public partial class MainPanelControl : UserControl
-    {     
+    {
+        private static bool isAllFilterChecked = true;
         /// <summary>
         /// Initializes a new instance of the <see cref="MainPanelControl"/> class.
         /// </summary>
@@ -58,30 +60,52 @@
             ((MainViewModel)this.DataContext).CollapseAll();
         }
 
-        private void HandleCheck(object sender, RoutedEventArgs e)
+        private void HandleClick(object sender, RoutedEventArgs e)
         {
-            if (((CheckBox)e.Source).Content.Equals("All"))
+            if ((bool)((CheckBox)e.Source).IsChecked)
             {
+                HandleCheck(((CheckBox)e.Source).Content.ToString());
+            }
+            else
+            {
+                HandleUnchecked(((CheckBox)e.Source).Content.ToString());
+            }
+        }
+        private void HandleCheck(string filtredObject)
+        {
+
+            if (filtredObject.Equals("All"))
+            {
+                isAllFilterChecked = true;
                 cbCriticall.IsChecked = true;
                 cbMajor.IsChecked = true;
                 cbMinor.IsChecked  = true;
                 cbUnknown.IsChecked = true;
                 cbNormal.IsChecked = true;
             }
-            ((MainViewModel)this.DataContext).AddSeverityToFilter(((CheckBox)e.Source).Content.ToString());
+            ((MainViewModel)this.DataContext).AddSeverityToFilter(filtredObject);
         }
 
-        private void HandleUnchecked(object sender, RoutedEventArgs e)
+        private void HandleUnchecked(string filtredObject)
         {
-            if (((CheckBox)e.Source).Content.Equals("All"))
+            if (filtredObject.Equals("All"))
             {
+                isAllFilterChecked = false;
                 cbCriticall.IsChecked = false;
                 cbMajor.IsChecked = false;
                 cbMinor.IsChecked = false;
                 cbUnknown.IsChecked = false;
                 cbNormal.IsChecked = false;
             }
-            ((MainViewModel)this.DataContext).AddSeverityToFilter(((CheckBox)e.Source).Content.ToString());
+            else
+            {
+                if (isAllFilterChecked)
+                {
+                    isAllFilterChecked = false;
+                    cbAll.IsChecked = false;
+                }
+            }
+            ((MainViewModel)this.DataContext).RemoveSeverityFromFilter(filtredObject);
         }
         private void OpenFilter(object sender, RoutedEventArgs e)
         {
@@ -94,11 +118,29 @@
 
         private void Tree_Loaded(object sender, RoutedEventArgs e)
         {
+            if (isAllFilterChecked)
+            {
+                InitCheckbox();
+            }
             ((MainViewModel)this.DataContext).Load();
+        }
+
+        private void InitCheckbox()
+        {
+            cbAll.IsChecked = true;
+            cbCriticall.IsChecked = true;
+            cbMajor.IsChecked = true;
+            cbMinor.IsChecked = true;
+            cbUnknown.IsChecked = true;
+            cbNormal.IsChecked = true;
         }
 
         public void Load()
         {
+            if (isAllFilterChecked)
+            {
+                InitCheckbox();
+            }
             ((MainViewModel)this.DataContext).Load();
         }
 

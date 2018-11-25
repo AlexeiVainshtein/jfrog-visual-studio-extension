@@ -103,11 +103,11 @@ namespace JFrogVSExtension.Tree
                             break;
                         }
                 }
-
+                dataService.Severities = severities;
                 dataService.populateRootElements(projects);
                
                 this.Artifacts = new ObservableCollection<ArtifactViewModel>();
-                dataService.Severities = severities;
+                
                 foreach (string key in dataService.RootElements)
                 {
                     Artifacts.Add(new ArtifactViewModel(key));

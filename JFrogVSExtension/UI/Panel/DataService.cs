@@ -1,4 +1,5 @@
 ﻿using JFrogVSExtension.HttpClient;
+using JFrogVSExtension.Logger;
 using JFrogVSExtension.Utils;
 using JFrogVSExtension.Xray;
 using System;
@@ -14,11 +15,7 @@ namespace JFrogVSExtension.Data
         private HashSet<Components> componentsCache;
         private Artifacts artifacts = new Artifacts();
         public List<string> RootElements { get; private set; }
-        public HashSet<Severity> Severities {
-            set
-            {
-            }
-        }
+        public HashSet<Severity> Severities { get; set; }
         private DataService()
         {
             InitializeComponent();
@@ -50,30 +47,41 @@ namespace JFrogVSExtension.Data
             List<String> names = new List<String>();
             foreach (NugetProject project in projects.projects)
             {
-                names.Add(project.name);
                 List<String> projectDependencies = new List<string>();
-                Severity topSeverity = Severity.Normal;
+                Component comp = new Component()
+                {
+                    Key = project.name,
+                    Group = project.name,
+                    Issues = new List<Issue>()
+                };
+                Severity topSeverity = Severity.Unknown;
                 if (project.dependencies != null && project.dependencies.Length > 0)
                 {
                     foreach (Dependency dep in project.dependencies)
                     {
-                        projectDependencies.Add(dep.id);
-                        topSeverity = getTopComponentSeverity(topSeverity, dep);
+                        Component depComponent = getComponent(dep);
+                        if (Severities.Contains(depComponent.TopSeverity))
+                        {
+                            projectDependencies.Add(depComponent.Key);
+                        } 
+                        topSeverity = getTopComponentSeverity(topSeverity, depComponent);
+                        foreach (Issue issue in depComponent.Issues)
+                        {
+                            if (!comp.Issues.Contains(issue))
+                            {
+                                comp.Issues.Add(issue);
+                            }
+                        }
                     }
                 }
 
-                Component comp = new Component()
-                {
-                    Key = project.name,
-                    Dependencies = projectDependencies,
-                    Group = project.name,
-                    TopSeverity = topSeverity
-                };
-
+                comp.TopSeverity = topSeverity;
+                comp.Dependencies = projectDependencies;
+                names.Add(project.name);
                 // Adding to the data service components the project itself
                 if (!getComponents().ContainsKey(comp.Key))
                 {
-                    getComponents().Add(comp.Key, comp);
+                    getComponents().Add(comp.Key, comp);                
                 }
                 else
                 {
@@ -91,21 +99,26 @@ namespace JFrogVSExtension.Data
             {
                 RootElements.Add(name);
             }
+        }
 
+        private Component getComponent(Dependency dep)
+        {
+            var artifactsMap = artifacts.artifacts.ToDictionary(x => x.general.ComponentId, x => x);
+            return Util.ParseDependencies(dep, artifactsMap, this);
         }
         // Parsing the dependencies and returning the top severity from all the dependency. 
         // This top severity that is returned, is the project serverity
-        private Severity getTopComponentSeverity(Severity topSeverity, Dependency dep)
+        private Severity getTopComponentSeverity(Severity topSeverity, Component depComponent)
         {
-            var artifactsMap = artifacts.artifacts.ToDictionary(x => x.general.ComponentId, x => x);
-            Component depComponent = Util.ParseDependencies(dep, artifactsMap, this);
-            topSeverity = Util.GetTopSeverity(topSeverity, depComponent.TopSeverity);
-            // Adding to the data service components the dependencies itself.
-            if (!getComponents().ContainsKey(depComponent.Key))
+            if (depComponent != null)
             {
-                getComponents().Add(depComponent.Key, depComponent);
+                topSeverity = Util.GetTopSeverity(topSeverity, depComponent.TopSeverity);
+                // Adding to the data service components the dependencies itself.
+                if (!getComponents().ContainsKey(depComponent.Key))
+                {
+                    getComponents().Add(depComponent.Key, depComponent);
+                }
             }
-
             return topSeverity;
         }
 
@@ -154,7 +167,11 @@ namespace JFrogVSExtension.Data
 
         public Component getComponent(string key)
         {
-            return components[key];
+            if (components.ContainsKey(key))
+            {
+                return components[key];
+            }
+            return new Component();
         }
 
         public Dictionary<string, Component> getComponents()

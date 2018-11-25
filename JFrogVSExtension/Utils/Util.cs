@@ -143,9 +143,14 @@ namespace JFrogVSExtension.Utils
                 {
                     foreach (Dependency dependency in dep.dependencies)
                     {
-                        projectDependencies.Add(dependency.id);
                         // Let's get the component information of the dependency. 
                         Component component = ParseDependencies(dependency, artifactsMap, dataService);
+                        if (!dataService.Severities.Contains(component.TopSeverity))
+                        {
+                            continue;
+                        }
+
+                        topSeverity = GetTopSeverity(topSeverity, component.TopSeverity);
                         if (component.Issues != null && component.Issues.Count > 0 && comp.Issues != null && comp.Issues.Count > 0)
                         {
                             // Means that the component already has some issues. 
@@ -163,11 +168,11 @@ namespace JFrogVSExtension.Utils
                         {
                             comp.Issues.AddRange(component.Issues);
                         }
-                        topSeverity = GetTopSeverity(topSeverity, component.TopSeverity);
                         if (!dataService.getComponents().ContainsKey(component.Key))
                         {
                             dataService.getComponents().Add(component.Key, component);
                         }
+                        projectDependencies.Add(dependency.id);
                     }
                 }
                 comp.Dependencies = projectDependencies;
