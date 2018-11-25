@@ -20,7 +20,7 @@ To build the plugin sources, please follow these steps:
 
 ![alt](docs/images/getTools.png)
 
-4. Select the *workloads* tab and scroll to the bottem for the Other Toolsets section. Install *Visual Studio extension development*. Read more about Visual Studio SDK [here](https://docs.microsoft.com/en-us/visualstudio/extensibility/installing-the-visual-studio-sdk?view=vs-2017).
+4. Select the *workloads* tab and scroll to the bottem for the *Other Toolsets* section. Install *Visual Studio extension development*. Read more about Visual Studio SDK [here](https://docs.microsoft.com/en-us/visualstudio/extensibility/installing-the-visual-studio-sdk?view=vs-2017).
 
 ![alt](docs/images/extension.png)
 
