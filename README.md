@@ -38,9 +38,7 @@ To build the plugin sources, please follow these steps:
 # Troublshooting Issues
 When openning the project in Visual Studio for the first time, the following error may appear : *"Fody.WeavingTask" task was not given a value for the required parameter "SolutionDir"*.
 
-To fix this,close the solution and open it again. More information can be found [here](https://stackoverflow.com/questions/50225374/xamarin
-
-issues-with-fody-weavingtask-and-solutiondir)
+To fix this,close the solution and open it again. More information can be found [here](https://stackoverflow.com/questions/50225374/xamarinissues-with-fody-weavingtask-and-solutiondir)
 
 # Code Contributions
 We welcome community contribution through pull requests.
