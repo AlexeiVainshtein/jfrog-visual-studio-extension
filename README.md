@@ -11,7 +11,7 @@ JFrog Visual studio extension adds JFrog Xray scanning of NuGet project dependen
 4. Click on *Download*
 5. Once the installation is completed, re-open Visual Studio.
 
-# Building and Testing the Sources
+# Building the Sources
 
 To build the plugin sources, please follow these steps:
 1. Clone the code from git.
